@@ -9,6 +9,7 @@ contract Campaign {
         uint256 value;
         address payable recipient;
         bool isComplete;
+        bool requestApproved;
         uint256 approvalCount;
         uint256 rejectionCount;
         mapping(address => bool) hasVoted;
@@ -46,7 +47,7 @@ contract Campaign {
     modifier isCreator() {
         require(
             msg.sender == creator,
-            "You are not authorised for this action."
+            "You are not authorised for this action"
         );
         _;
     }
@@ -62,7 +63,7 @@ contract Campaign {
     modifier nonCreatorAction() {
         require(
             msg.sender != creator,
-            "You are not authorised for this action."
+            "You are not authorised for this action"
         );
         _;
     }
@@ -95,6 +96,7 @@ contract Campaign {
         newRequest.value = value;
         newRequest.recipient = recipient;
         newRequest.isComplete = false;
+        newRequest.requestApproved = false;
         newRequest.approvalCount = 0;
         newRequest.rejectionCount = 0;
     }
@@ -109,6 +111,7 @@ contract Campaign {
             !request.hasVoted[msg.sender],
             "You have already voted for this request"
         );
+        require(!request.isComplete, "This request already finalised");
         request.hasVoted[msg.sender] = true;
         request.approvalCount++;
     }
@@ -123,6 +126,7 @@ contract Campaign {
             !request.hasVoted[msg.sender],
             "You have already voted for this request"
         );
+        require(!request.isComplete, "This request already finalised");
         request.hasVoted[msg.sender] = true;
         request.rejectionCount++;
     }
@@ -133,12 +137,28 @@ contract Campaign {
         uint256 totalVoted = request.approvalCount + request.rejectionCount;
         require(
             totalVoted > (contributorsCount / 2),
-            "You need atleast 50% of contributors to vote for finalising the request."
+            "You need atleast 50% of contributors to vote to finalise the request"
         );
         if (request.approvalCount > (totalVoted / 2)) {
             request.recipient.transfer(request.value);
             balanceAmount = balanceAmount - request.value;
-            request.isComplete = true;
+            request.requestApproved = true;
+        }
+        request.isComplete = true;
+    }
+
+    function spendingRequestStatus(uint256 requestIndex)
+        public
+        view
+        returns (string memory)
+    {
+        SpendingRequest storage request = spendingRequest[requestIndex];
+        if (!request.isComplete) {
+            return "ongoing";
+        } else if (request.requestApproved) {
+            return "approved";
+        } else {
+            return "rejected";
         }
     }
 }

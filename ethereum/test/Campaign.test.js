@@ -183,7 +183,7 @@ describe("Campaign", () => {
     } catch (error) {
       assert.equal(
         errorProcessor(error)[0],
-        "You are not authorised for this action."
+        "You are not authorised for this action"
       );
     }
   });
@@ -209,12 +209,12 @@ describe("Campaign", () => {
     } catch (error) {
       assert.equal(
         errorProcessor(error)[0],
-        "You are not authorised for this action."
+        "You are not authorised for this action"
       );
     }
   });
 
-  it("allows creator to add new spending requests and finalise correctly", async () => {
+  it("allows creator to add new spending requests and finalise it and get approved", async () => {
     await campaignContract.methods.contribute().send({
       value: "10001",
       from: accounts[1],
@@ -267,13 +267,92 @@ describe("Campaign", () => {
       gas,
     });
     const balance1 = await web3.eth.getBalance(accounts[5]);
+    const status1 = await campaignContract.methods
+      .spendingRequestStatus(0)
+      .call();
+    assert.equal(status1, "ongoing");
     await campaignContract.methods.finaliseRequest(0).send({
       from: accounts[0],
       gas,
     });
+    const status2 = await campaignContract.methods
+      .spendingRequestStatus(0)
+      .call();
+    assert.equal(status2, "approved");
     const balance2 = await web3.eth.getBalance(accounts[5]);
     assert(balance2 > balance1);
     const totalBalance2 = await campaignContract.methods.balanceAmount().call();
     assert.equal(totalBalance2, 12001);
+  });
+
+  it("allows creator to add new spending requests and finalise it and get rejected", async () => {
+    await campaignContract.methods.contribute().send({
+      value: "10001",
+      from: accounts[1],
+      gas,
+    });
+    await campaignContract.methods.contribute().send({
+      value: "1000",
+      from: accounts[2],
+      gas,
+    });
+    await campaignContract.methods.contribute().send({
+      value: "1000",
+      from: accounts[3],
+      gas,
+    });
+    await campaignContract.methods.contribute().send({
+      value: "1000",
+      from: accounts[4],
+      gas,
+    });
+    const totalBalance1 = await campaignContract.methods.balanceAmount().call();
+    assert.equal(totalBalance1, 13001);
+    await campaignContract.methods
+      .createRequest(
+        "Request Title",
+        "Request Description",
+        "1000",
+        accounts[5]
+      )
+      .send({
+        from: accounts[0],
+        gas,
+      });
+    const req = await campaignContract.methods.spendingRequest(0).call();
+    assert.equal(req.title, "Request Title");
+    await campaignContract.methods.approveRequest(0).send({
+      from: accounts[1],
+      gas,
+    });
+    await campaignContract.methods.approveRequest(0).send({
+      from: accounts[2],
+      gas,
+    });
+    await campaignContract.methods.rejectRequest(0).send({
+      from: accounts[3],
+      gas,
+    });
+    await campaignContract.methods.rejectRequest(0).send({
+      from: accounts[4],
+      gas,
+    });
+    const balance1 = await web3.eth.getBalance(accounts[5]);
+    const status1 = await campaignContract.methods
+      .spendingRequestStatus(0)
+      .call();
+    assert.equal(status1, "ongoing");
+    await campaignContract.methods.finaliseRequest(0).send({
+      from: accounts[0],
+      gas,
+    });
+    const status2 = await campaignContract.methods
+      .spendingRequestStatus(0)
+      .call();
+    assert.equal(status2, "rejected");
+    const balance2 = await web3.eth.getBalance(accounts[5]);
+    assert.equal(balance2, balance1);
+    const totalBalance2 = await campaignContract.methods.balanceAmount().call();
+    assert.equal(totalBalance2, 13001);
   });
 });
