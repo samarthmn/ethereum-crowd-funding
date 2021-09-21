@@ -6,10 +6,12 @@
     "test": "test"
   },
   "scripts": {
-    "compile": "cd ethereum && node compile.js && cd ..",
+    "compile": "node compile.js",
+    "deploy": "node deploy.js",
     "test": "mocha"
   },
   "dependencies": {
+    "dotenv": "^10.0.0",
     "fs-extra": "^10.0.0",
     "ganache-cli": "^6.12.2",
     "mocha": "^9.1.1",
