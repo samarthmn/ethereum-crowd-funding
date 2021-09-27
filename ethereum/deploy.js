@@ -21,6 +21,6 @@ const deploy = async () => {
   } catch (error) {
     console.error(error);
   }
-  return;
+  process.exit(0);
 };
 deploy();

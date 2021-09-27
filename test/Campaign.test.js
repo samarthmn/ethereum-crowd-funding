@@ -1,8 +1,8 @@
 const assert = require("assert");
 const ganache = require("ganache-cli");
 const Web3 = require("web3");
-const CampaignBuildJson = require("../build/Campaign.json");
-const CampaignCreatorBuildJson = require("../build/CampaignCreator.json");
+const CampaignBuildJson = require("../ethereum/build/Campaign.json");
+const CampaignCreatorBuildJson = require("../ethereum/build/CampaignCreator.json");
 
 const web3 = new Web3(ganache.provider());
 const gas = "3000000";

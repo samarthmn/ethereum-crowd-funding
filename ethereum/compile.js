@@ -13,7 +13,7 @@ async function compile() {
     fs.ensureDirSync(buildPath);
     fs.ensureDirSync(tempBuildPath);
     const { stderr } = await exec(
-      "solc --overwrite --combined-json abi,bin -o ./temp ./contracts/Campaign.sol && solc --overwrite --combined-json abi,bin -o ./temp ./contracts/CampaignCreator.sol"
+      "solc --overwrite --combined-json abi,bin -o ./ethereum/temp ./ethereum/contracts/Campaign.sol && solc --overwrite --combined-json abi,bin -o ./ethereum/temp ./ethereum/contracts/CampaignCreator.sol"
     );
     if (stderr) {
       throw stderr;
