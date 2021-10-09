@@ -1,5 +1,3 @@
-function Footer() {
-  return null;
-}
+import Footer from "./Footer";
 
 export default Footer;
