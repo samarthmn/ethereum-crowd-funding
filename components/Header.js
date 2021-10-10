@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Heading,
   Button,
@@ -6,26 +6,27 @@ import {
   Link,
   useColorMode,
   Image,
-  Text,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
+  Spinner,
 } from "@chakra-ui/react";
 import { FaSun, FaMoon, FaUserCircle } from "react-icons/fa";
-import { getWeb3ReactContext, useWeb3React } from "@web3-react/core";
-import { injected } from "./../../ethereum/connectors";
-import { compressedAddress } from "../../utils/string-utils";
+import { useWeb3React } from "@web3-react/core";
+import { walletInjected } from "../ethereum/web3/connectors";
+import { compressedAddress } from "../utils/string-utils";
 
 function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { active, account, activate, deactivate, connector } = useWeb3React();
+  const { active, account, activate, deactivate, library, connector } =
+    useWeb3React();
   const [loading, setLoading] = useState(false);
 
   const connect = async () => {
     try {
       setLoading(true);
-      await activate(injected);
+      await activate(walletInjected);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -35,7 +36,7 @@ function Header() {
 
   const disconnect = () => {
     try {
-      deactivate(injected);
+      deactivate(walletInjected);
     } catch (error) {
       console.error(error);
     }
@@ -61,7 +62,9 @@ function Header() {
         </Heading>
       </Flex>
       <Flex alignItems="center">
-        {active ? (
+        {loading ? (
+          <Spinner />
+        ) : active ? (
           <>
             <Menu variant="outline" _focus={{ outline: "" }} ml={2}>
               <MenuButton as={Button} variant="ghost" _focus={{ outline: "" }}>

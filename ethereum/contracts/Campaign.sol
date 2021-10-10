@@ -15,6 +15,16 @@ contract Campaign {
         mapping(address => bool) hasVoted;
     }
 
+    struct CampaignDetailsReturn {
+        string title;
+        string description;
+        uint256 totalContribution;
+        uint256 balanceAmount;
+        uint256 minimumContribution;
+        uint256 contributorsCount;
+        uint256 spendingRequestCount;
+    }
+
     struct Contributor {
         uint256 _value;
         bool hasContributed;
@@ -160,5 +170,19 @@ contract Campaign {
         } else {
             return "rejected";
         }
+    }
+
+    function getCampaignDetails()
+        public
+        view
+        returns (CampaignDetailsReturn memory campaignDetailsReturn)
+    {
+        campaignDetailsReturn.title = title;
+        campaignDetailsReturn.description = description;
+        campaignDetailsReturn.totalContribution = totalContribution;
+        campaignDetailsReturn.balanceAmount = balanceAmount;
+        campaignDetailsReturn.minimumContribution = minimumContribution;
+        campaignDetailsReturn.contributorsCount = contributorsCount;
+        campaignDetailsReturn.spendingRequestCount = spendingRequestCount;
     }
 }
