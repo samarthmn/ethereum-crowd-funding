@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Heading,
   Button,
@@ -16,17 +16,18 @@ import { FaSun, FaMoon, FaUserCircle } from "react-icons/fa";
 import { useWeb3React } from "@web3-react/core";
 import { walletInjected } from "../ethereum/web3/connectors";
 import { compressedAddress } from "../utils/string-utils";
+import useWeb3 from "../hooks/useWeb3";
 
 function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { active, account, activate, deactivate, library, connector } =
-    useWeb3React();
+  const { active, account } = useWeb3React();
+  const { connect, disconnect } = useWeb3();
   const [loading, setLoading] = useState(false);
 
-  const connect = async () => {
+  const connectAccount = async () => {
     try {
       setLoading(true);
-      await activate(walletInjected);
+      await connect(walletInjected);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -34,9 +35,9 @@ function Header() {
     }
   };
 
-  const disconnect = () => {
+  const disconnectAccount = () => {
     try {
-      deactivate(walletInjected);
+      deactivate();
     } catch (error) {
       console.error(error);
     }
@@ -72,13 +73,13 @@ function Header() {
               </MenuButton>
               <MenuList>
                 <MenuItem>Address - {compressedAddress(account)}</MenuItem>
-                <MenuItem onClick={disconnect}>Disconnect</MenuItem>
+                <MenuItem onClick={disconnectAccount}>Disconnect</MenuItem>
               </MenuList>
             </Menu>
           </>
         ) : (
           <Button
-            onClick={connect}
+            onClick={connectAccount}
             variant="outline"
             _focus={{ outline: "" }}
             ml={2}

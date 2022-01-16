@@ -1,25 +1,32 @@
-import { useWeb3React } from "@web3-react/core";
-import Layout from "./../../components/Layout";
 import HtmlHead from "../../components/HtmlHead";
 import campaignContract from "../../ethereum/web3/campaignContract";
+import CampaignDetails from "../../features/CampaignDetails";
 
-function CampaignDetails({ campaign }) {
-  console.log(campaign);
-  const { active, library } = useWeb3React();
-  console.log(active, library);
+function ViewCampaign({ campaign }) {
   return (
-    <Layout>
-      <HtmlHead />
-    </Layout>
+    <>
+      <HtmlHead title={campaign?.title} description={campaign?.description} />
+      <CampaignDetails campaign={campaign} />
+    </>
   );
 }
 
-CampaignDetails.getInitialProps = async ({ query }) => {
+ViewCampaign.getInitialProps = async ({ query }) => {
   const campaign = await campaignContract(query.id)
     .methods.getCampaignDetails()
     .call();
-  console.log(query.id);
-  return { campaign };
+  return {
+    campaign: {
+      id: query.id,
+      title: campaign[0],
+      description: campaign[1],
+      totalContribution: campaign[2],
+      balanceAmount: campaign[3],
+      minimumContribution: campaign[4],
+      contributorsCount: campaign[5],
+      spendingRequestCount: campaign[6],
+    },
+  };
 };
 
-export default CampaignDetails;
+export default ViewCampaign;
