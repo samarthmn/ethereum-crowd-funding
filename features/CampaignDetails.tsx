@@ -4,7 +4,11 @@ import web3 from "web3";
 import Card from "../components/Card";
 import { compressedAddress } from "../utils/string-utils";
 
-function CampaignDetails({ campaign }) {
+type Props = {
+  campaign: Campaign;
+};
+
+const CampaignDetails: React.FC<Props> = ({ campaign }) => {
   return (
     <>
       <Grid>
@@ -65,6 +69,6 @@ function CampaignDetails({ campaign }) {
       </Grid>
     </>
   );
-}
+};
 
 export default CampaignDetails;

@@ -10,7 +10,11 @@ import {
 } from "@chakra-ui/react";
 import { FaRegEye } from "react-icons/fa";
 
-function campaignDashboard({ campaigns }) {
+type Props = {
+  campaigns: string[];
+};
+
+const CampaignDashboard: React.FC<Props> = ({ campaigns }) => {
   return (
     <>
       <Table variant="simple">
@@ -40,6 +44,6 @@ function campaignDashboard({ campaigns }) {
       </Table>
     </>
   );
-}
+};
 
-export default campaignDashboard;
+export default CampaignDashboard;

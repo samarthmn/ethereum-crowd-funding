@@ -4,7 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import useWeb3 from "../hooks/useWeb3";
 
-function Layout({ children }) {
+const Layout: React.FC = ({ children }) => {
   const { init } = useWeb3();
   useEffect(() => {
     init();
@@ -18,6 +18,6 @@ function Layout({ children }) {
       <Footer />
     </div>
   );
-}
+};
 
 export default Layout;

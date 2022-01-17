@@ -11,7 +11,6 @@ const getConnectedAccount = async () => {
       web3 = new Web3(window.web3.currentProvider);
     }
     const connectedAccount = await web3.eth.getAccounts();
-    console.log(connectedAccount);
     if (connectedAccount.length) {
       return connectedAccount[0];
     }

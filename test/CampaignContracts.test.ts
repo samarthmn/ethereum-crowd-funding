@@ -1,11 +1,11 @@
-const assert = require("assert");
-const ganache = require("ganache-cli");
-const Web3 = require("web3");
-const CampaignBuildJson = require("../ethereum/build/Campaign.json");
+import assert from "assert";
+import ganache from "ganache-cli";
+import Web3 from "web3";
+const CampaignBuildJson = require("");
 const CampaignCreatorBuildJson = require("../ethereum/build/CampaignCreator.json");
 
 const web3 = new Web3(ganache.provider());
-const gas = "3000000";
+const gas = 3000000;
 
 let accounts, campaignCreatorContract, campaignContract, campaignAddresses;
 const minimumContribution = 100,
@@ -14,7 +14,7 @@ const minimumContribution = 100,
 
 const errorProcessor = (ethError) => {
   return ethError?.results
-    ? Object.values(ethError?.results).map((e) => e.reason)
+    ? Object.values(ethError?.results).map((e: any) => e.reason)
     : false;
 };
 

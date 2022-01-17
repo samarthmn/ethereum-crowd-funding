@@ -18,7 +18,7 @@ import { walletInjected } from "../ethereum/web3/connectors";
 import { compressedAddress } from "../utils/string-utils";
 import useWeb3 from "../hooks/useWeb3";
 
-function Header() {
+const Header: React.FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { active, account } = useWeb3React();
   const { connect, disconnect } = useWeb3();
@@ -98,6 +98,6 @@ function Header() {
       </Flex>
     </Flex>
   );
-}
+};
 
 export default Header;

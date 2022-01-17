@@ -1,6 +1,11 @@
 import Head from "next/head";
 
-function HtmlHead({ title, description }) {
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const HtmlHead: React.FC<Props> = ({ title, description }) => {
   return (
     <Head>
       <title>Fund Labs {title && `| ${title}`}</title>
@@ -11,6 +16,6 @@ function HtmlHead({ title, description }) {
       <link rel="icon" href="/favicon.ico" />
     </Head>
   );
-}
+};
 
 export default HtmlHead;

@@ -1,21 +1,23 @@
 import campaignCreatorContract from "../ethereum/web3/campaignCreatorContract";
 import HtmlHead from "../components/HtmlHead";
 import CampaignDashboard from "../features/CampaignsDashboard";
+import { NextPage } from "next";
 
-function Home({ campaigns }) {
+const Home: NextPage<string[]> = (campaigns) => {
   return (
     <>
       <HtmlHead />
-      <CampaignDashboard campaigns={campaigns} />
+      <CampaignDashboard campaigns={Object.values(campaigns)} />
     </>
   );
-}
+};
 
 Home.getInitialProps = async () => {
-  const campaigns = await campaignCreatorContract.methods
+  const campaigns = (await campaignCreatorContract.methods
     .getAllCampaigns()
-    .call();
-  return { campaigns };
+    .call()) as string[];
+
+  return campaigns;
 };
 
 export default Home;

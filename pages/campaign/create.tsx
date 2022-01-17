@@ -1,11 +1,12 @@
+import { NextPage } from "next";
 import HtmlHead from "../../components/HtmlHead";
 
-function CampaignCreate() {
+const CampaignCreate: NextPage = () => {
   return (
     <>
       <HtmlHead />
     </>
   );
-}
+};
 
 export default CampaignCreate;
