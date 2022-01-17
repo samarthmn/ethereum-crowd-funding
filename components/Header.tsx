@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { FaSun, FaMoon, FaUserCircle } from "react-icons/fa";
 import { useWeb3React } from "@web3-react/core";
-import { walletInjected } from "../ethereum/web3/connectors";
 import { compressedAddress } from "../utils/string-utils";
 import useWeb3 from "../hooks/useWeb3";
 
@@ -27,7 +26,7 @@ const Header: React.FC = () => {
   const connectAccount = async () => {
     try {
       setLoading(true);
-      await connect(walletInjected);
+      await connect();
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -37,7 +36,7 @@ const Header: React.FC = () => {
 
   const disconnectAccount = () => {
     try {
-      deactivate();
+      disconnect();
     } catch (error) {
       console.error(error);
     }
@@ -67,7 +66,7 @@ const Header: React.FC = () => {
           <Spinner />
         ) : active ? (
           <>
-            <Menu variant="outline" _focus={{ outline: "" }} ml={2}>
+            <Menu variant="outline">
               <MenuButton as={Button} variant="ghost" _focus={{ outline: "" }}>
                 <FaUserCircle />
               </MenuButton>
