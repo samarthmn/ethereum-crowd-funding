@@ -14,7 +14,8 @@ const minimumContribution = 100,
 
 const errorProcessor = (ethError) => {
   return ethError?.results
-    ? Object.values(ethError?.results).map((e: any) => e.reason)
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      Object.values(ethError?.results).map((e: any) => e.reason)
     : false;
 };
 

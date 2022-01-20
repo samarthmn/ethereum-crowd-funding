@@ -38,3 +38,5 @@ async function compile() {
   }
 }
 compile();
+
+export {};

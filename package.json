@@ -7,19 +7,19 @@
     "url": "git+https://github.com/samarthmn/ethereum-crowd-funding.git"
   },
   "author": "Samarth",
-  "license": "",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/samarthmn/ethereum-crowd-funding/issues"
   },
   "homepage": "https://github.com/samarthmn/ethereum-crowd-funding#readme",
   "scripts": {
-    "eth:compile": "node ./ethereum/compile.js",
-    "eth:deploy": "node ./ethereum/deploy.js",
+    "eth:compile": "node ./ethereum/compile.ts",
+    "eth:deploy": "node ./ethereum/deploy.ts",
     "test": "mocha",
     "dev": "next dev",
-    "build": "next build",
+    "build": "yarn lint && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "@chakra-ui/react": "1.7.4",
@@ -41,14 +41,24 @@
     "web3": "1.6.1"
   },
   "devDependencies": {
-    "@types/expect": "^24.3.0",
-    "@types/mocha": "^9.0.0",
-    "@types/react": "^17.0.38",
+    "@types/expect": "24.3.0",
+    "@types/fs-extra": "9.0.13",
+    "@types/mocha": "9.0.0",
+    "@types/react": "17.0.38",
+    "@typescript-eslint/eslint-plugin": "5.10.0",
+    "@typescript-eslint/parser": "5.10.0",
     "eslint": "8.7.0",
     "eslint-config-next": "12.0.8",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "7.28.0",
     "mocha": "9.1.4",
+    "prettier": "2.5.1",
     "solc": "0.8.11",
-    "ts-mocha": "^9.0.2",
-    "typescript": "^4.5.4"
+    "ts-mocha": "9.0.2",
+    "typescript": "4.5.4"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }

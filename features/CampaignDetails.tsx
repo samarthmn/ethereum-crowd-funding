@@ -1,4 +1,4 @@
-import { Grid, GridItem, Text, Link, Box, Flex } from "@chakra-ui/react";
+import { Grid, GridItem, Text, Link, Flex } from "@chakra-ui/react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import web3 from "web3";
 import Card from "../components/Card";

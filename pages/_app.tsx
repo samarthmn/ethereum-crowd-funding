@@ -8,9 +8,10 @@ import theme from "../utils/theme";
 import Layout from "../components/Layout";
 import { NextPage } from "next";
 
-function getLibrary(provider) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getLibrary = (provider?: any) => {
   return new Web3(provider);
-}
+};
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
   return (
