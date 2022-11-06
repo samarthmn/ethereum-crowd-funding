@@ -39,4 +39,4 @@ async function compile() {
 }
 compile();
 
-export {};
+module.exports = compile;

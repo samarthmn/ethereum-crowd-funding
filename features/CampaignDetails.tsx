@@ -17,7 +17,7 @@ const CampaignDetails: React.FC<Props> = ({ campaign }) => {
             <Text>{campaign?.title}</Text>
             <Text>{campaign?.description}</Text>
             <Link
-              href={`https://rinkeby.etherscan.io/address/${campaign.id}`}
+              href={`https://goerli.etherscan.io/address/${campaign.id}`}
               isExternal
             >
               <Flex gap={2} alignItems="center" as="span" fontSize="sm" mt={4}>
