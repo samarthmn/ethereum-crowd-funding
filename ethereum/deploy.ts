@@ -3,8 +3,6 @@ const HDWalletProvider = require("truffle-hdwallet-provider");
 const Web3 = require("web3");
 const { abi, bytecode } = require("./build/CampaignCreator.json");
 
-console.log(process.env.WALLET_KEY_PHRASE);
-
 const provider = new HDWalletProvider(
   process.env.WALLET_KEY_PHRASE,
   process.env.INFURA_LINK
